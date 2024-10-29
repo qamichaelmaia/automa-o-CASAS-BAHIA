@@ -35,3 +35,25 @@ Cypress.Commands.add('removerProdutos', () => {
     cy.get('.cart-empty').should('contain', 'Seu carrinho está vazio.');
     cy.wait(2000);
 })
+
+Cypress.Commands.add('falsoCadastro', (email, senha) => {
+    cy.log('🚨❗**Iniciando o cadastro com senha de apenas 2 dígitos**');
+    cy.get('#reg_email').type(email);
+    cy.get('#reg_password').type(senha);
+    cy.get('.woocommerce-password-strength').should('contain', 'Muito fraca - Digite uma senha segura.');
+    cy.get('.woocommerce-password-hint').should('contain', 'Dica: A senha deve ter pelo menos doze caracteres. Para torná-la mais forte, use letras maiúsculas e minúsculas, números e símbolos como ! " ? $ % ^ & ).');
+    cy.get(':nth-child(4) > .button').click();
+    cy.log('🚨❗ **BUG DETECTADO**: Cadastro foi realizado com sucesso, mas deveria ter falhado devido à senha insuficiente.');
+    cy.wait(1000);
+    cy.get('.category-inside-title').click()
+    cy.get('#menu-item-1004 > a').should('contain', 'All Categories').click()
+    cy.log('🚨❗ **BUG DETECTADO**: no access All Categories');
+    cy.get('#menu-item-1003 > a').should('contain', 'Recommended').click()
+    cy.log('🚨❗ **BUG DETECTADO**: no access Recommended');
+    cy.get('#menu-item-1002 > a').should('contain', 'Best Selling').click()
+    cy.log('🚨❗ **BUG DETECTADO**: no access Best Selling');
+    cy.get('#menu-item-1001 > a').should('contain', 'Speaker').click()
+    cy.log('🚨❗ **BUG DETECTADO**: no access Speaker');
+    cy.get('#menu-item-1000 > a').should('contain', 'Microphone').click()
+    cy.log('🚨❗ **BUG DETECTADO**: no access Microphone');
+})
