@@ -26,6 +26,16 @@ Cypress.Commands.add('addProdutos', () => {
     cy.wait(500);
 })
 
+Cypress.Commands.add('editProdutos', () => {
+    const quantidadeDesejada = 9; 
+    
+    for (let i = 0; i < quantidadeDesejada; i++) {
+        cy.get('.plus').click();
+    }
+    cy.get('.woocommerce-message').should('contain', 'Carrinho atualizado.')
+    cy.wait(1500);
+})
+
 Cypress.Commands.add('removerProdutos', () => {
     cy.get('.sub-title').should('contain', 'Cart : R$');
     cy.wait(1000);
